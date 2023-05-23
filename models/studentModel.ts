@@ -36,3 +36,7 @@ const studentSchema = new mongoose.Schema({
         required : [true, "Please confirm Password"]
     }
 })
+
+const Student = mongoose.model("Student", studentSchema);
+
+export default Student;

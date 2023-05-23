@@ -16,3 +16,7 @@ const courseSchema = new mongoose.Schema({
         required : [true, "Course status is required"]
     }
 })
+
+const Course = mongoose.model("Course", courseSchema);
+
+export default Course;
