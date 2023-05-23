@@ -1,0 +1,13 @@
+{
+  "name": "attendly-server",
+  "version": "1.0.0",
+  "description": "Backend server for the attendly mobile application. Attendly is a school attendance recorder system, which records student attendance wirelessly",
+  "main": "server.js",
+  "scripts": {
+    "build" : "tsc",
+    "start" : "node ./build/server",
+    "dev" : "nodemon server.ts"
+  },
+  "author": "Mbianou Bradon",
+  "license": "ISC"
+}
