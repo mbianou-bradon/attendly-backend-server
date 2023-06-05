@@ -24,7 +24,7 @@ export const getAllStudents = async (req : Express.Request, res : Express.Respon
                 student : allStudents
             })
         )
-    } catch (error) {
+    } catch (error : any) {
         res.status(400).json({
             message : error.message
         })
@@ -91,7 +91,7 @@ export const createStudent = async (req: Express.Request, res : Express.Response
                 message : "Student created successfull!"
             })
         )
-    } catch (error) {
+    } catch (error : any) {
         return next(
             res.status(400).json({
                 message : error.message

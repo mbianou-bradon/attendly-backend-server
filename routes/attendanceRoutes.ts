@@ -17,3 +17,5 @@ router.patch("/:id", updateAttendance);
 
 // Delete a Attendance from Database
 router.delete("/:id", deleteAttendance);
+
+export default router;

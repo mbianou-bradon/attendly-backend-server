@@ -17,3 +17,5 @@ router.patch("/:id", updateCourse);
 
 // Delete a Course from Database
 router.delete("/:id", deleteCourse);
+
+export default router;
