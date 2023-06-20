@@ -1,4 +1,5 @@
 import Express from "express";
+import authRoutes from "./routes/authRoutes"
 import studentRoutes from "./routes/studentRoutes";
 import teacherRoutes from "./routes/teacherRoutes";
 import courseRoutes from "./routes/courseRoutes";
@@ -26,6 +27,7 @@ app.use((req, res, next)=>{
 });
 
 // Defining Routes
+app.use("/api/auth", authRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/courses", courseRoutes);
