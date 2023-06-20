@@ -25,3 +25,16 @@ export const LoginUser =async (req:Express.Request, res : Express.Response, next
         })
     )
 }
+
+/**
+ * SignUpUser - Module to Create new users that's both Teachers, Student
+ * @req : Incoming request argument
+ * @res : response argument
+ * @next : Function that proceed to the next Middleware (Either Teacher or Student)
+ * 
+ * Return : return the fetched data if positive or error message if fails
+ * 
+ */
+export const SignUpUser =async (req:Express.Request, res : Express.Response, next : any) => {
+    
+}

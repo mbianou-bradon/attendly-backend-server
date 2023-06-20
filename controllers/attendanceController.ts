@@ -24,7 +24,7 @@ export const getAllAttendances = async (req : Express.Request, res : Express.Res
                 attendance : allAttendances
             })
         )
-    } catch (error) {
+    } catch (error : any ) {
         res.status(400).json({
             message : error.message
         })
@@ -91,7 +91,7 @@ export const createAttendance = async (req: Express.Request, res : Express.Respo
                 message : "Attendance created successfull!"
             })
         )
-    } catch (error) {
+    } catch (error : any ) {
         return next(
             res.status(400).json({
                 message : error.message
