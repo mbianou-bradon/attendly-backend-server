@@ -13,17 +13,45 @@ import  Express  from "express"
  * 
  */
 export const LoginUser =async (req:Express.Request, res : Express.Response, next : any) => {
-    const { userID, userPassword } = req.params
+    const { userID, userPassword } = req.body
 
     console.log({
         "UserID" : userID,
         "userPassword" : userPassword
     })
-    return next(
-        res.status(200).json({
-            message : "Login Successfull!"
-        })
-    )
+    try {
+        let user = await Student.findOne({matriculeNumber : userID})
+
+        if(user){
+            // Compare the password
+        } else {
+            user = await Teacher.findOne({teacherMatricule : userID})
+
+            if(user){
+                // Compare password here
+            } else {
+                return next(
+                    res.status(404).json({
+                        message : "User does not exist"
+                    })
+                )
+            }
+        }
+
+        return next(
+            res.status(200).json({
+                message : "Login Successfull!"
+            })
+        )
+
+    } catch (error : any ) {
+        return next(
+            res.status(400).json({
+                message : error
+            })
+        )
+    }
+
 }
 
 /**
