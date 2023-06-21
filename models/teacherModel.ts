@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 
 const teacherSchema = new mongoose.Schema({
+    teacherMatricule : {
+        type : String,
+        required : [true, "Teacher Matricule Required"],
+        unique : [true, "Matricule Already exist, assign a different One"]
+    },
     teacherName : {
         type : String,
         required : [true, "Teacher Name required!"]
