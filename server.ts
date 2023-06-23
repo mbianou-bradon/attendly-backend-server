@@ -5,19 +5,27 @@ import teacherRoutes from "./routes/teacherRoutes";
 import courseRoutes from "./routes/courseRoutes";
 import attendanceRoutes from "./routes/attendanceRoutes";
 import defaultRoutes from "./routes/defaultRoutes";
+import mongoose from "mongoose";
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({path: "./vars/.env"})
 }
 
 const app = Express();
+const PORT = process.env.PORT;
+const DB_URI = process.env.MONGODB_URI!;
 
-
-const PORT = process.env.PORT
-
-app.listen(PORT, ()=>{
-    console.log("Listening at Port", PORT)
+mongoose.connect(DB_URI)
+.then(() => {
+  console.log('Connected to MongoDB Database')
+  app.listen(PORT, ()=>{
+    console.log("Listening at Port", PORT);
+  })
 })
+.catch((error) => {
+  console.log("MongoDB error:", error);
+});
+
 
 // Middlewares 
 app.use(Express.json())
@@ -31,5 +39,5 @@ app.use("/api/auth", authRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/courses", courseRoutes);
-app.use("api/attendances", attendanceRoutes);
+app.use("/api/attendances", attendanceRoutes);
 app.use("/", defaultRoutes)
