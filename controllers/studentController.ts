@@ -43,7 +43,7 @@ export const getAllStudents = async (req : Express.Request, res : Express.Respon
 export const getOneStudent = async (req : Express.Request, res : Express.Response, next : any) =>{
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         return next(
             res.status(404).json({
                 message: "Invalid id!"
@@ -81,16 +81,29 @@ export const getOneStudent = async (req : Express.Request, res : Express.Respons
  */
 export const createStudent = async (req: Express.Request, res : Express.Response, next : any) => {
 
-    const newStudentData = req.body;
+    const {matriculeNumber, studentName, email, password, faculty, department, phoneNumber, confirmPassword} = req.body;
+
+    const newStudentData = {
+        matriculeNumber, studentName, email, phoneNumber, faculty, department, password, confirmPassword
+    }
 
     try {
-        const newStudent = await Student.create(newStudentData);
+        if(password === confirmPassword) {
+            const newStudent = await Student.create(newStudentData);
 
-        return next(
-            res.status(200).json({
-                message : "Student created successfull!"
-            })
-        )
+            return next(
+                res.status(200).json({
+                    message : "Student created successfull!"
+                })
+            )
+        } else {
+            return next (
+                res.status(400).json({
+                    message : "Password and ConfirmPassword MUST Match!"
+                })
+            )
+        }
+        
     } catch (error : any) {
         return next(
             res.status(400).json({
@@ -113,7 +126,7 @@ export const createStudent = async (req: Express.Request, res : Express.Response
 export const updateStudent = async (req: Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         res.status(404).json({
             message : "Invalid id!" 
         });
@@ -151,7 +164,7 @@ export const updateStudent = async (req: Express.Request, res : Express.Response
 export const deleteStudent = async (req : Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         return next(
             res.status(404).json({
                 message : "Invalid id!"

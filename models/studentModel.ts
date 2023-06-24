@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import * as bcryptjs from "bcryptjs"
 
 const studentSchema = new mongoose.Schema({
 
@@ -35,6 +36,17 @@ const studentSchema = new mongoose.Schema({
         type : String, 
         required : [true, "Please confirm Password"]
     }
+})
+
+studentSchema.pre('save', async function (next) {
+
+    if(!this.isModified('password')){
+        next()
+    }
+    const password = this.password!;
+    this.password = await bcryptjs.hash(password, 10);
+    this.confirmPassword = "0";
+
 })
 
 const Student = mongoose.model("Student", studentSchema);
