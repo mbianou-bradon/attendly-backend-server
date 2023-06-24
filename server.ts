@@ -5,6 +5,7 @@ import teacherRoutes from "./routes/teacherRoutes";
 import courseRoutes from "./routes/courseRoutes";
 import attendanceRoutes from "./routes/attendanceRoutes";
 import defaultRoutes from "./routes/defaultRoutes";
+import facultyRoutes from "./routes/facultyRoutes";
 import mongoose from "mongoose";
 
 if (process.env.NODE_ENV !== 'production') {
@@ -40,4 +41,5 @@ app.use("/api/students", studentRoutes);
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/attendances", attendanceRoutes);
+app.use("/api/faculties", facultyRoutes);
 app.use("/", defaultRoutes)

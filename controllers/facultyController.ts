@@ -1,10 +1,10 @@
 import mongoose from "mongoose"
-import Teacher from "../models/teacherModel"
+import Faculty from "../models/facultyModel"
 import Express from "express"
 
 
 /**
- * getAllTeachers - Get all Teachers from the Database and sort it from latest to oldest
+ * getAllFacultys - Get all Facultys from the Database and sort it from latest to oldest
  * @req : Incoming request argument
  * @res : response argument
  * @next : Function that proceed to the next Middleware
@@ -12,16 +12,16 @@ import Express from "express"
  * Return : return the fetched data if positive or error message if fails
  * 
  */
-export const getAllTeachers = async (req : Express.Request, res : Express.Response, next : any) => {
-    const course = req.query || ""
+export const getAllFaculties = async (req : Express.Request, res : Express.Response, next : any) => {
+    const faculty = req.query || ""
 
     try {
-        const allTeachers = await Teacher.find({}).sort({ createdAt : -1 })
+        const allFacultys = await Faculty.find({}).sort({ createdAt : -1 })
 
         return next(
             res.status(200).json({
                 status : "OK",
-                teacher : allTeachers
+                faculty : allFacultys
             })
         )
     } catch (error : any) {
@@ -32,7 +32,7 @@ export const getAllTeachers = async (req : Express.Request, res : Express.Respon
 }
 
 /**
- * getOneTeacher - Get One Teacher from the Database with a particular id
+ * getOneFaculty - Get One Faculty from the Database with a particular id
  * @req : Incoming request argument
  * @res : response argument
  * @next : Function that proceed to the next Middleware
@@ -40,7 +40,7 @@ export const getAllTeachers = async (req : Express.Request, res : Express.Respon
  * Return : return the fetched data if positive or error message if fails
  * 
  */
-export const getOneTeacher = async (req : Express.Request, res : Express.Response, next : any) =>{
+export const getOneFaculty = async (req : Express.Request, res : Express.Response, next : any) =>{
     const { id } = req.params;
 
     if(mongoose.Types.ObjectId.isValid(id)){
@@ -51,12 +51,12 @@ export const getOneTeacher = async (req : Express.Request, res : Express.Respons
         )
     }
 
-    const teacher = await Teacher.findById(id)
+    const faculty = await Faculty.findById(id)
 
-    if(!teacher){
+    if(!faculty){
         return next(
             res.status(404).json({
-                message: "Teacher Not Found!"
+                message: "Faculty Not Found!"
             })
         )
     }
@@ -64,14 +64,14 @@ export const getOneTeacher = async (req : Express.Request, res : Express.Respons
     return next(
         res.status(200).json({
             status : "OK",
-            data : teacher
+            data : faculty
         })
     )
 
 }
 
 /**
- * createTeacher - Create a new Teacher with information gotten from the request body
+ * createFaculty - Create a new Faculty with information gotten from the request body
  * @req : Incoming request argument
  * @res : response argument
  * @next : Function that proceed to the next Middleware
@@ -79,32 +79,19 @@ export const getOneTeacher = async (req : Express.Request, res : Express.Respons
  * Return : return the created data if positive or error message if fails
  * 
  */
-export const createTeacher = async (req: Express.Request, res : Express.Response, next : any) => {
+export const createFaculty = async (req: Express.Request, res : Express.Response, next : any) => {
 
-    const {teacherMatricule, teacherName, email, address, faculty, courseTaught, password, confirmPassword} = req.body;
+    const newFacultyData = req.body;
 
     try {
+        const newFaculty = await Faculty.create(newFacultyData);
 
-        const newTeacherData = {
-            teacherMatricule, teacherName, email, address, faculty, courseTaught, password, confirmPassword
-        }
-
-        if(password === confirmPassword) {
-            const newStudent = await Teacher.create(newTeacherData);
-
-            return next(
-                res.status(200).json({
-                    message : "Teacher created successfull!"
-                })
-            )
-        } else {
-            return next (
-                res.status(400).json({
-                    message : "Password and ConfirmPassword MUST Match!"
-                })
-            )
-        }
-    } catch (error : any) {
+        return next(
+            res.status(200).json({
+                message : "Faculty created successfull!"
+            })
+        )
+    } catch (error : any ) {
         return next(
             res.status(400).json({
                 message : error.message
@@ -115,7 +102,7 @@ export const createTeacher = async (req: Express.Request, res : Express.Response
 }
 
 /**
- * updateTeacher - Update a particular Teacher info with id gotten from request params
+ * updateFaculty - Update a particular Faculty info with id gotten from request params
  * @req : Incoming request argument
  * @res : response argument
  * @next : Function that proceed to the next Middleware
@@ -123,7 +110,7 @@ export const createTeacher = async (req: Express.Request, res : Express.Response
  * Return : return the fetched data if positive or error message if fails
  * 
  */
-export const updateTeacher = async (req: Express.Request, res : Express.Response, next : any) => {
+export const updateFaculty = async (req: Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
     if(mongoose.Types.ObjectId.isValid(id)){
@@ -132,14 +119,14 @@ export const updateTeacher = async (req: Express.Request, res : Express.Response
         });
     }
 
-    const teacher = await Teacher.findByIdAndUpdate({ _id : id }, {
+    const faculty = await Faculty.findByIdAndUpdate({ _id : id }, {
         ...req.body
     });
 
-    if(!teacher) {
+    if(!faculty) {
         return next (
             res.status(404).json({
-                message : "Teacher not found!"
+                message : "Faculty not found!"
             })
         )
     }
@@ -147,13 +134,13 @@ export const updateTeacher = async (req: Express.Request, res : Express.Response
     return next(
         res.status(200).json({
             status : "OK",
-            message : "Teacher Information successfully Updated!"
+            message : "Faculty Information successfully Updated!"
         })
     )
 }
 
 /**
- * deleteTeacher - find a Teacher by id and delete it from the database
+ * deleteFaculty - find a Faculty by id and delete it from the database
  * @req : Incoming request argument
  * @res : response argument
  * @next : Function that proceed to the next Middleware
@@ -161,7 +148,7 @@ export const updateTeacher = async (req: Express.Request, res : Express.Response
  * Return : return a positive message if successfull or error message if fails
  * 
  */
-export const deleteTeacher = async (req : Express.Request, res : Express.Response, next : any) => {
+export const deleteFaculty = async (req : Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
     if(mongoose.Types.ObjectId.isValid(id)){
@@ -172,12 +159,12 @@ export const deleteTeacher = async (req : Express.Request, res : Express.Respons
         )
     }
 
-    const teacher = await Teacher.findByIdAndDelete(id)
+    const faculty = await Faculty.findByIdAndDelete(id)
 
-    if(!teacher) {
+    if(!faculty) {
         return next (
             res.status(404).json({
-                message : "Teacher not found!"
+                message : "Faculty not found!"
             })
         )
     }
@@ -185,7 +172,7 @@ export const deleteTeacher = async (req : Express.Request, res : Express.Respons
     return next(
         res.status(200).json({
             status : "OK",
-            message : "Teacher deleted successfully!"
+            message : "Faculty deleted successfully!"
         })
     )
 }
