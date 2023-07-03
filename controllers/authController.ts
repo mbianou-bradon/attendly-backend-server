@@ -27,14 +27,16 @@ export const LoginUser = async (req: Express.Request, res: Express.Response, nex
         if (!user) return next(res.status(404).json({ message: "User does not exist" }));
 
         const hashPassword = user.password!;
-        
+
         const response = await bcryptjs.compare(userPassword, hashPassword);
 
-        return next(res.status(response ? 200 : 401).json({
-            status: response ? "OK" : "error",
-            message: response ? "Login Successfully!" : "Invalid Credentials",
-            user: response ? user : null
-        }));
+        return next(
+            res.status(response ? 200 : 401).json({
+                status: response ? "OK" : "error",
+                message: response ? "Login Successfully!" : "Invalid Credentials",
+                user: response ? user : null
+            })
+        );
 
     } catch (error: any) {
         return next(

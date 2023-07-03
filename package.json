@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "tsc",
-    "start": "node ./build/server",
+    "start": "node ./build/server.js",
     "dev": "nodemon server.ts"
   },
   "author": "Mbianou Bradon",
