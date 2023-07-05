@@ -7,6 +7,7 @@ import attendanceRoutes from "./routes/attendanceRoutes";
 import defaultRoutes from "./routes/defaultRoutes";
 import facultyRoutes from "./routes/facultyRoutes";
 import mongoose from "mongoose";
+import cors from "cors"
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({path: "./vars/.env"})
@@ -34,6 +35,10 @@ app.use((req, res, next)=>{
     console.log(req.path, req.method);
     next();
 });
+app.use(cors({
+  "origin" : ["http://127.0.0.1:3000", "https://attendly-web-dashboard.vercel.app"],
+  "methods" : ["GET", "POST", "PATCH", "DELETE"]
+}))
 
 // Defining Routes
 app.use("/api/auth", authRoutes);
