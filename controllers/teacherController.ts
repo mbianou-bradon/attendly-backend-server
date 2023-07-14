@@ -16,7 +16,7 @@ export const getAllTeachers = async (req : Express.Request, res : Express.Respon
     const course = req.query || ""
 
     try {
-        const allTeachers = await Teacher.find({}).sort({ createdAt : -1 })
+        const allTeachers = await Teacher.find({}).populate("coursesTaught").sort({ createdAt : -1 })
 
         return next(
             res.status(200).json({
@@ -51,7 +51,7 @@ export const getOneTeacher = async (req : Express.Request, res : Express.Respons
         )
     }
 
-    const teacher = await Teacher.findById(id)
+    const teacher = await Teacher.findById(id).populate("coursesTaught")
 
     if(!teacher){
         return next(

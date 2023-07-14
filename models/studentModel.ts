@@ -28,6 +28,10 @@ const studentSchema = new mongoose.Schema({
         type : String,
         required : [true, "Student must be in a Department"]
     },
+    role : {
+        type : String,
+        required : [true, "User role required"]
+    },
     password : {
         type : String,
         required : [true, "Please insert a password"]

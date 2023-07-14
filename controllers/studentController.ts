@@ -81,10 +81,10 @@ export const getOneStudent = async (req : Express.Request, res : Express.Respons
  */
 export const createStudent = async (req: Express.Request, res : Express.Response, next : any) => {
 
-    const {matriculeNumber, studentName, email, password, faculty, department, phoneNumber, confirmPassword} = req.body;
+    const {matriculeNumber, studentName, email, password, faculty, department, phoneNumber, role, confirmPassword} = req.body;
 
     const newStudentData = {
-        matriculeNumber, studentName, email, phoneNumber, faculty, department, password, confirmPassword
+        matriculeNumber, studentName, email, phoneNumber, faculty, department, role, password, confirmPassword
     }
 
     try {
