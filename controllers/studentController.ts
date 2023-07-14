@@ -18,10 +18,21 @@ export const getAllStudents = async (req : Express.Request, res : Express.Respon
     try {
         const allStudents = await Student.find({}).sort({ createdAt : -1 })
 
+        const allStudentCuratedData = allStudents.map((student)=>{
+            return {
+                matriculeNumber : student.matriculeNumber,
+                studentName : student.studentName,
+                email : student.email,
+                phoneNumber : student.phoneNumber,
+                faculty : student.faculty,
+                department : student.department,
+                role : student.role
+            }
+        })
         return next(
             res.status(200).json({
                 status : "OK",
-                student : allStudents
+                student : allStudentCuratedData
             })
         )
     } catch (error : any) {
@@ -64,7 +75,15 @@ export const getOneStudent = async (req : Express.Request, res : Express.Respons
     return next(
         res.status(200).json({
             status : "OK",
-            data : student
+            data : {
+                matriculeNumber : student.matriculeNumber,
+                studentName : student.studentName,
+                email : student.email,
+                phoneNumber : student.phoneNumber,
+                faculty : student.faculty,
+                department : student.department,
+                role : student.role
+            }
         })
     )
 

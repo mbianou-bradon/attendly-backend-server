@@ -18,10 +18,22 @@ export const getAllTeachers = async (req : Express.Request, res : Express.Respon
     try {
         const allTeachers = await Teacher.find({}).populate("coursesTaught").sort({ createdAt : -1 })
 
+        const allTeachersCuratedData = allTeachers.map((teacher)=>{
+            return {
+                teacherMatricule : teacher.teacherMatricule,
+                teacherName : teacher.teacherName,
+                email : teacher.email,
+                address : teacher.address,
+                role : teacher.role,
+                coursesTaught : teacher.coursesTaught,
+                faculty : teacher.faculty
+            }
+        })
+
         return next(
             res.status(200).json({
                 status : "OK",
-                teacher : allTeachers
+                teacher : allTeachersCuratedData
             })
         )
     } catch (error : any) {
@@ -64,7 +76,15 @@ export const getOneTeacher = async (req : Express.Request, res : Express.Respons
     return next(
         res.status(200).json({
             status : "OK",
-            data : teacher
+            data : {
+                teacherMatricule : teacher.teacherMatricule,
+                teacherName : teacher.teacherName,
+                email : teacher.email,
+                address : teacher.address,
+                role : teacher.role,
+                coursesTaught : teacher.coursesTaught,
+                faculty : teacher.faculty
+            }
         })
     )
 
