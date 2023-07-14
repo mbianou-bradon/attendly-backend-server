@@ -11,7 +11,7 @@ const attendanceSchema = new mongoose.Schema({
         required : [true, "Attendance must have Course code"]
     },
     dateSigned : {
-        type : Date,
+        type : String,
         required : [true, "Attendance must have a date"]
     }
 }, {timestamps : true})
