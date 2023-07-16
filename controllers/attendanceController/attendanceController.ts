@@ -13,14 +13,19 @@ import Express from "express"
  * 
  */
 export const getAllAttendances = async (req : Express.Request, res : Express.Response, next : any) => {
-    const course = req.query || ""
+    const course = String(req.query.course) || ""
 
     try {
-        const allAttendances = await Attendance.find({}).sort({ createdAt : -1 })
+        let query = {}
+        if(course)
+            query = { courseCode : course }
+
+        const allAttendances = await Attendance.find(query).sort({ studentMatriculationNumber : 1 })
 
         return next(
             res.status(200).json({
                 status : "OK",
+                count : allAttendances.length,
                 attendance : allAttendances
             })
         )

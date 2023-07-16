@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import { Student } from "../../models"
 import Express from "express"
+import { institutionalEmailBuilder, matriculeNumGenerator } from "../../utils"
 
 
 /**
@@ -16,7 +17,7 @@ export const getAllStudents = async (req : Express.Request, res : Express.Respon
     const course = req.query || ""
 
     try {
-        const allStudents = await Student.find({}).sort({ createdAt : -1 })
+        const allStudents = await Student.find({}).sort({ matriculeNumber : 1 })
 
         const allStudentCuratedData = allStudents.map((student)=>{
             return {
@@ -100,19 +101,25 @@ export const getOneStudent = async (req : Express.Request, res : Express.Respons
  */
 export const createStudent = async (req: Express.Request, res : Express.Response, next : any) => {
 
-    const {matriculeNumber, studentName, email, password, faculty, department, phoneNumber, role, confirmPassword} = req.body;
+    const {studentName, email, password, faculty, department, phoneNumber, role, confirmPassword} = req.body;
 
-    const newStudentData = {
-        matriculeNumber, studentName, email, phoneNumber, faculty, department, role, password, confirmPassword
-    }
 
     try {
+
+        const matriculeNumber = await matriculeNumGenerator(faculty);
+        const institutionalEmail = institutionalEmailBuilder(studentName);
+
+        const newStudentData = {
+            matriculeNumber, studentName, email, institutionalEmail, phoneNumber, faculty, department, role, password, confirmPassword
+        }
+
         if(password === confirmPassword) {
             const newStudent = await Student.create(newStudentData);
 
             return next(
                 res.status(200).json({
-                    message : "Student created successfull!"
+                    message : "Student created successfull!",
+                    data : newStudent
                 })
             )
         } else {

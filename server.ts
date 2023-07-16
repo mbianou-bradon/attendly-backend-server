@@ -2,7 +2,6 @@ import Express from "express";
 import { attendanceRoutes, authRoutes, courseRoutes, defaultRoutes, departmentRoutes, facultyRoutes, studentRoutes, teacherRoutes,  } from "./routes";
 import mongoose from "mongoose";
 import cors from "cors"
-import uploadData from "./databaseConnect";
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({path: "./vars/.env"})

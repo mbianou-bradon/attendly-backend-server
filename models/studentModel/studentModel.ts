@@ -17,6 +17,11 @@ const studentSchema = new mongoose.Schema({
         required : [true, "Email Address required"],
         unique : [true, "Email Address already exist"]
     },
+    institutionalEmail : {
+        type : String,
+        required : [true, "Institutional Email Address required"],
+        unique : [true, "Institutional Email already exist"]
+    },
     phoneNumber : {
         type : String,
     },

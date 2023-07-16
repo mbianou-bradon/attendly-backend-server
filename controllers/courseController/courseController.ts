@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import { Course } from "../../models"
 import Express from "express"
+import { Query } from "../../utils/dataTypes/dataTypes"
 
 
 /**
@@ -13,14 +14,32 @@ import Express from "express"
  * 
  */
 export const getAllCourses = async (req : Express.Request, res : Express.Response, next : any) => {
-    const course = req.query || ""
+    const faculty= String(req.query.faculty) || " ";
+    const dept = String(req.query.dept) || " ";
+    const level = String(req.query.level) || " ";
+    const isOpen = Boolean(req.query.isOpen) || false; 
 
     try {
-        const allCourses = await Course.find({}).sort({ createdAt : -1 })
+        let query : Query = {};
+        if(faculty !== " "){
+            query.facultyAbbr = faculty 
+        }
+        if(dept !== " "){
+            query.departmentAbbr = dept;
+        }
+        if(level !== " "){
+            query.level = level
+        }
+        if(isOpen){
+            query.isOpen = isOpen
+        }
+
+        const allCourses = await Course.find(query).sort({ courseCode : 1 })
 
         return next(
             res.status(200).json({
                 status : "OK",
+                count : allCourses.length,
                 course : allCourses
             })
         )
