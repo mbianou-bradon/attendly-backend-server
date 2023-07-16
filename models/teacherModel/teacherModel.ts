@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import * as bcryptjs from "bcryptjs"
+import { Course } from "..";
 
 const teacherSchema = new mongoose.Schema({
     teacherMatricule : {
@@ -16,18 +17,23 @@ const teacherSchema = new mongoose.Schema({
         required : [true, "Email Address required"],
         unique : [true, "Email address already in use. Input a different one"]
     },
+    institutionalEmail : {
+        type : String,
+        required : [true, "Institutional Email Address required"],
+        unique : [true, "Institutional Email already in use. Input a different one"]
+    },
     address : {
         type : String,
         required : [true, "Teacher address required!"]
     },
     role : {
         type : String,
-        required : [true, "User role required"]
+        // required : [true, "User role required"]
     },
     coursesTaught : [
         {
             type : Schema.Types.ObjectId,
-            ref : "Course"
+            ref : Course
         }
     ],
     faculty : {

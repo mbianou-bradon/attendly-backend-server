@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import { Teacher } from "../../models"
 import Express from "express"
+import { institutionalEmailBuilder, matriculeNumGenerator } from "../../utils"
 
 
 /**
@@ -20,9 +21,11 @@ export const getAllTeachers = async (req : Express.Request, res : Express.Respon
 
         const allTeachersCuratedData = allTeachers.map((teacher)=>{
             return {
+                id : teacher._id,
                 teacherMatricule : teacher.teacherMatricule,
                 teacherName : teacher.teacherName,
                 email : teacher.email,
+                institutionalEmail: teacher.institutionalEmail,
                 address : teacher.address,
                 role : teacher.role,
                 coursesTaught : teacher.coursesTaught,
@@ -55,7 +58,7 @@ export const getAllTeachers = async (req : Express.Request, res : Express.Respon
 export const getOneTeacher = async (req : Express.Request, res : Express.Response, next : any) =>{
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         return next(
             res.status(404).json({
                 message: "Invalid id!"
@@ -63,7 +66,7 @@ export const getOneTeacher = async (req : Express.Request, res : Express.Respons
         )
     }
 
-    const teacher = await Teacher.findById(id).populate("coursesTaught")
+    const teacher = await Teacher.findById(id).populate({ path: "coursesTaught"})
 
     if(!teacher){
         return next(
@@ -77,9 +80,11 @@ export const getOneTeacher = async (req : Express.Request, res : Express.Respons
         res.status(200).json({
             status : "OK",
             data : {
+                id : teacher._id,
                 teacherMatricule : teacher.teacherMatricule,
                 teacherName : teacher.teacherName,
                 email : teacher.email,
+                institutionalEmail: teacher.institutionalEmail,
                 address : teacher.address,
                 role : teacher.role,
                 coursesTaught : teacher.coursesTaught,
@@ -101,20 +106,33 @@ export const getOneTeacher = async (req : Express.Request, res : Express.Respons
  */
 export const createTeacher = async (req: Express.Request, res : Express.Response, next : any) => {
 
-    const {teacherMatricule, teacherName, email, address, faculty, courseTaught, password, confirmPassword} = req.body;
+    const {teacherName, email, address, faculty, courseTaught, password, confirmPassword} = req.body;
 
     try {
+        const teacherMatricule = await matriculeNumGenerator(faculty, true);
+        const institutionalEmail = institutionalEmailBuilder(teacherName);
 
         const newTeacherData = {
-            teacherMatricule, teacherName, email, address, faculty, courseTaught, password, confirmPassword
+            teacherMatricule, teacherName, email, institutionalEmail, address, faculty, courseTaught, password, confirmPassword
         }
 
         if(password === confirmPassword) {
-            const newStudent = await Teacher.create(newTeacherData);
+            const teacher = await Teacher.create(newTeacherData);
 
             return next(
                 res.status(200).json({
-                    message : "Teacher created successfull!"
+                    message : "Teacher created successfull!",
+                    data : {
+                        id : teacher._id,
+                        teacherMatricule : teacher.teacherMatricule,
+                        teacherName : teacher.teacherName,
+                        email : teacher.email,
+                        institutionalEmail: teacher.institutionalEmail,
+                        address : teacher.address,
+                        role : teacher.role,
+                        coursesTaught : teacher.coursesTaught,
+                        faculty : teacher.faculty
+                    }
                 })
             )
         } else {
@@ -146,7 +164,7 @@ export const createTeacher = async (req: Express.Request, res : Express.Response
 export const updateTeacher = async (req: Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         res.status(404).json({
             message : "Invalid id!" 
         });
@@ -184,7 +202,7 @@ export const updateTeacher = async (req: Express.Request, res : Express.Response
 export const deleteTeacher = async (req : Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         return next(
             res.status(404).json({
                 message : "Invalid id!"

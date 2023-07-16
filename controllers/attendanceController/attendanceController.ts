@@ -48,7 +48,7 @@ export const getAllAttendances = async (req : Express.Request, res : Express.Res
 export const getOneAttendance = async (req : Express.Request, res : Express.Response, next : any) =>{
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         return next(
             res.status(404).json({
                 message: "Invalid id!"
@@ -118,7 +118,7 @@ export const createAttendance = async (req: Express.Request, res : Express.Respo
 export const updateAttendance = async (req: Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         res.status(404).json({
             message : "Invalid id!" 
         });
@@ -156,7 +156,7 @@ export const updateAttendance = async (req: Express.Request, res : Express.Respo
 export const deleteAttendance = async (req : Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         return next(
             res.status(404).json({
                 message : "Invalid id!"

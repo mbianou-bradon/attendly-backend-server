@@ -24,6 +24,7 @@ export const getAllStudents = async (req : Express.Request, res : Express.Respon
                 matriculeNumber : student.matriculeNumber,
                 studentName : student.studentName,
                 email : student.email,
+                institutionalEmail: student.institutionalEmail,
                 phoneNumber : student.phoneNumber,
                 faculty : student.faculty,
                 department : student.department,
@@ -80,6 +81,7 @@ export const getOneStudent = async (req : Express.Request, res : Express.Respons
                 matriculeNumber : student.matriculeNumber,
                 studentName : student.studentName,
                 email : student.email,
+                institutionalEmail: student.institutionalEmail,
                 phoneNumber : student.phoneNumber,
                 faculty : student.faculty,
                 department : student.department,
@@ -119,7 +121,16 @@ export const createStudent = async (req: Express.Request, res : Express.Response
             return next(
                 res.status(200).json({
                     message : "Student created successfull!",
-                    data : newStudent
+                    data : {
+                        matriculeNumber : newStudent.matriculeNumber,
+                        studentName : newStudent.studentName,
+                        email : newStudent.email,
+                        institutionalEmail: newStudent.institutionalEmail,
+                        phoneNumber : newStudent.phoneNumber,
+                        faculty : newStudent.faculty,
+                        department : newStudent.department,
+                        role : newStudent.role
+                    }
                 })
             )
         } else {

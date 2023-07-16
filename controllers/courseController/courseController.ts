@@ -62,7 +62,7 @@ export const getAllCourses = async (req : Express.Request, res : Express.Respons
 export const getOneCourse = async (req : Express.Request, res : Express.Response, next : any) =>{
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         return next(
             res.status(404).json({
                 message: "Invalid id!"
@@ -132,7 +132,7 @@ export const createCourse = async (req: Express.Request, res : Express.Response,
 export const updateCourse = async (req: Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         res.status(404).json({
             message : "Invalid id!" 
         });
@@ -170,7 +170,7 @@ export const updateCourse = async (req: Express.Request, res : Express.Response,
 export const deleteCourse = async (req : Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
-    if(mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(id)){
         return next(
             res.status(404).json({
                 message : "Invalid id!"
