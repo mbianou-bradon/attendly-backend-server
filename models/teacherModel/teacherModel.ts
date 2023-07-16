@@ -1,6 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 import * as bcryptjs from "bcryptjs"
-import { Course } from "..";
 
 const teacherSchema = new mongoose.Schema({
     teacherMatricule : {
@@ -28,12 +27,11 @@ const teacherSchema = new mongoose.Schema({
     },
     role : {
         type : String,
-        // required : [true, "User role required"]
     },
     coursesTaught : [
         {
-            type : Schema.Types.ObjectId,
-            ref : Course
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "Course"
         }
     ],
     faculty : {

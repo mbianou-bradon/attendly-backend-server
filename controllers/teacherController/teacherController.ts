@@ -66,7 +66,7 @@ export const getOneTeacher = async (req : Express.Request, res : Express.Respons
         )
     }
 
-    const teacher = await Teacher.findById(id).populate({ path: "coursesTaught"})
+    const teacher = await Teacher.findById(id).populate({ path: "coursesTaught", model: "Course", options: {strictPopulate: false}})
 
     if(!teacher){
         return next(
@@ -106,14 +106,14 @@ export const getOneTeacher = async (req : Express.Request, res : Express.Respons
  */
 export const createTeacher = async (req: Express.Request, res : Express.Response, next : any) => {
 
-    const {teacherName, email, address, faculty, courseTaught, password, confirmPassword} = req.body;
+    const {teacherName, email, address, faculty, coursesTaught, password, confirmPassword} = req.body;
 
     try {
         const teacherMatricule = await matriculeNumGenerator(faculty, true);
         const institutionalEmail = institutionalEmailBuilder(teacherName);
 
         const newTeacherData = {
-            teacherMatricule, teacherName, email, institutionalEmail, address, faculty, courseTaught, password, confirmPassword
+            teacherMatricule, teacherName, email, institutionalEmail, address, faculty, coursesTaught, password, confirmPassword
         }
 
         if(password === confirmPassword) {
