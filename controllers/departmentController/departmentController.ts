@@ -1,10 +1,10 @@
 import mongoose from "mongoose"
-import Course from "../models/courseModel"
+import { Department } from "../../models"
 import Express from "express"
 
 
 /**
- * getAllCourses - Get all Courses from the Database and sort it from latest to oldest
+ * getAllDepartments - Get all Departments from the Database and sort it from latest to oldest
  * @req : Incoming request argument
  * @res : response argument
  * @next : Function that proceed to the next Middleware
@@ -12,16 +12,16 @@ import Express from "express"
  * Return : return the fetched data if positive or error message if fails
  * 
  */
-export const getAllCourses = async (req : Express.Request, res : Express.Response, next : any) => {
-    const course = req.query || ""
+export const getAllDepartments = async (req : Express.Request, res : Express.Response, next : any) => {
+    const department = req.query || ""
 
     try {
-        const allCourses = await Course.find({}).sort({ createdAt : -1 })
+        const allDepartments = await Department.find({}).sort({ createdAt : -1 })
 
         return next(
             res.status(200).json({
                 status : "OK",
-                course : allCourses
+                department : allDepartments
             })
         )
     } catch (error : any) {
@@ -32,7 +32,7 @@ export const getAllCourses = async (req : Express.Request, res : Express.Respons
 }
 
 /**
- * getOneCourse - Get One Course from the Database with a particular id
+ * getOneDepartment - Get One Department from the Database with a particular id
  * @req : Incoming request argument
  * @res : response argument
  * @next : Function that proceed to the next Middleware
@@ -40,7 +40,7 @@ export const getAllCourses = async (req : Express.Request, res : Express.Respons
  * Return : return the fetched data if positive or error message if fails
  * 
  */
-export const getOneCourse = async (req : Express.Request, res : Express.Response, next : any) =>{
+export const getOneDepartment = async (req : Express.Request, res : Express.Response, next : any) =>{
     const { id } = req.params;
 
     if(mongoose.Types.ObjectId.isValid(id)){
@@ -51,12 +51,12 @@ export const getOneCourse = async (req : Express.Request, res : Express.Response
         )
     }
 
-    const course = await Course.findById(id)
+    const department = await Department.findById(id)
 
-    if(!course){
+    if(!department){
         return next(
             res.status(404).json({
-                message: "Course Not Found!"
+                message: "Department Not Found!"
             })
         )
     }
@@ -64,14 +64,14 @@ export const getOneCourse = async (req : Express.Request, res : Express.Response
     return next(
         res.status(200).json({
             status : "OK",
-            data : course
+            data : department
         })
     )
 
 }
 
 /**
- * createCourse - Create a new Course with information gotten from the request body
+ * createDepartment - Create a new Department with information gotten from the request body
  * @req : Incoming request argument
  * @res : response argument
  * @next : Function that proceed to the next Middleware
@@ -79,16 +79,16 @@ export const getOneCourse = async (req : Express.Request, res : Express.Response
  * Return : return the created data if positive or error message if fails
  * 
  */
-export const createCourse = async (req: Express.Request, res : Express.Response, next : any) => {
+export const createDepartment = async (req: Express.Request, res : Express.Response, next : any) => {
 
-    const newCourseData = req.body;
+    const newDepartmentData = req.body;
 
     try {
-        const newCourse = await Course.create(newCourseData);
+        const newDepartment = await Department.create(newDepartmentData);
 
         return next(
             res.status(200).json({
-                message : "Course created successfull!"
+                message : "Department created successfull!"
             })
         )
     } catch (error : any ) {
@@ -102,7 +102,7 @@ export const createCourse = async (req: Express.Request, res : Express.Response,
 }
 
 /**
- * updateCourse - Update a particular Course info with id gotten from request params
+ * updateDepartment - Update a particular Department info with id gotten from request params
  * @req : Incoming request argument
  * @res : response argument
  * @next : Function that proceed to the next Middleware
@@ -110,7 +110,7 @@ export const createCourse = async (req: Express.Request, res : Express.Response,
  * Return : return the fetched data if positive or error message if fails
  * 
  */
-export const updateCourse = async (req: Express.Request, res : Express.Response, next : any) => {
+export const updateDepartment = async (req: Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
     if(mongoose.Types.ObjectId.isValid(id)){
@@ -119,14 +119,14 @@ export const updateCourse = async (req: Express.Request, res : Express.Response,
         });
     }
 
-    const course = await Course.findByIdAndUpdate({ _id : id }, {
+    const department = await Department.findByIdAndUpdate({ _id : id }, {
         ...req.body
     });
 
-    if(!course) {
+    if(!department) {
         return next (
             res.status(404).json({
-                message : "Course not found!"
+                message : "Department not found!"
             })
         )
     }
@@ -134,13 +134,13 @@ export const updateCourse = async (req: Express.Request, res : Express.Response,
     return next(
         res.status(200).json({
             status : "OK",
-            message : "Course Information successfully Updated!"
+            message : "Department Information successfully Updated!"
         })
     )
 }
 
 /**
- * deleteCourse - find a Course by id and delete it from the database
+ * deleteDepartment - find a Department by id and delete it from the database
  * @req : Incoming request argument
  * @res : response argument
  * @next : Function that proceed to the next Middleware
@@ -148,7 +148,7 @@ export const updateCourse = async (req: Express.Request, res : Express.Response,
  * Return : return a positive message if successfull or error message if fails
  * 
  */
-export const deleteCourse = async (req : Express.Request, res : Express.Response, next : any) => {
+export const deleteDepartment = async (req : Express.Request, res : Express.Response, next : any) => {
     const { id } = req.params;
 
     if(mongoose.Types.ObjectId.isValid(id)){
@@ -159,12 +159,12 @@ export const deleteCourse = async (req : Express.Request, res : Express.Response
         )
     }
 
-    const course = await Course.findByIdAndDelete(id)
+    const department = await Department.findByIdAndDelete(id)
 
-    if(!course) {
+    if(!department) {
         return next (
             res.status(404).json({
-                message : "Course not found!"
+                message : "Department not found!"
             })
         )
     }
@@ -172,7 +172,7 @@ export const deleteCourse = async (req : Express.Request, res : Express.Response
     return next(
         res.status(200).json({
             status : "OK",
-            message : "Course deleted successfully!"
+            message : "Department deleted successfully!"
         })
     )
 }

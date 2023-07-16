@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import Attendance from "../models/attendanceModel"
+import { Attendance } from "../../models"
 import Express from "express"
 
 

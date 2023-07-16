@@ -1,5 +1,4 @@
-import Teacher from "../models/teacherModel"
-import Student from "../models/studentModel"
+import { Teacher, Student } from "../../models"
 import Express from "express"
 import * as bcryptjs from "bcryptjs"
 

@@ -1,11 +1,5 @@
 import Express from "express";
-import authRoutes from "./routes/authRoutes"
-import studentRoutes from "./routes/studentRoutes";
-import teacherRoutes from "./routes/teacherRoutes";
-import courseRoutes from "./routes/courseRoutes";
-import attendanceRoutes from "./routes/attendanceRoutes";
-import defaultRoutes from "./routes/defaultRoutes";
-import facultyRoutes from "./routes/facultyRoutes";
+import { attendanceRoutes, authRoutes, courseRoutes, defaultRoutes, departmentRoutes, facultyRoutes, studentRoutes, teacherRoutes,  } from "./routes";
 import mongoose from "mongoose";
 import cors from "cors"
 
@@ -47,4 +41,5 @@ app.use("/api/teachers", teacherRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/attendances", attendanceRoutes);
 app.use("/api/faculties", facultyRoutes);
+app.use("/api/departments", departmentRoutes);
 app.use("/", defaultRoutes)

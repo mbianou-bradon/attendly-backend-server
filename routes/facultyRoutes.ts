@@ -1,5 +1,5 @@
 import Express from "express";
-import { createFaculty, deleteFaculty, getAllFaculties, getOneFaculty, updateFaculty } from "../controllers/facultyController";
+import { createFaculty, deleteFaculty, getAllFaculties, getOneFaculty, updateFaculty } from "../controllers/facultyController/facultyController";
 
 const router = Express.Router();
 
