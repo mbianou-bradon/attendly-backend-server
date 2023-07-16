@@ -10,21 +10,7 @@ const facultySchema = new mongoose.Schema({
         type : String,
         required : [true, "Faculty Abbreviation Required"],
         unique : [true, "Faculty Abbreviation Should be unique"]
-    },
-    departments : [
-        {
-            departmentName : {
-                type : String,
-                required : [true, "Department name required"],
-                unique : [true, "Department name already exist, please add a different name"]
-            },
-            departmentAbbr : {
-                type : String,
-                required : [true, "Department Abbreviation required!"],
-                unique : [true, "Department Abbreviation should be unique"]
-            }
-        }
-    ]
+    }
 }, {timestamps : true});
 
 const Faculty = mongoose.model("Faculty", facultySchema);

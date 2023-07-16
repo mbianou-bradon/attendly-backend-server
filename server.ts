@@ -2,6 +2,7 @@ import Express from "express";
 import { attendanceRoutes, authRoutes, courseRoutes, defaultRoutes, departmentRoutes, facultyRoutes, studentRoutes, teacherRoutes,  } from "./routes";
 import mongoose from "mongoose";
 import cors from "cors"
+import uploadData from "./databaseConnect";
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({path: "./vars/.env"})
@@ -17,6 +18,7 @@ mongoose.connect(DB_URI)
   app.listen(PORT, ()=>{
     console.log("Listening at Port", PORT);
   })
+  // uploadData();
 })
 .catch((error) => {
   console.log("MongoDB error:", error);

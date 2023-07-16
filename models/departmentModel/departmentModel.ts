@@ -12,9 +12,9 @@ const departmentSchema = new mongoose.Schema({
         required : [true, "Department Abbreviation required!"],
         unique : [true, "Department Abbreviation should be unique"]
     },
-    facultyName : {
+    facultyAbbr : {
         type : String,
-        required : [true, "Please Add Faculty Name"]
+        required : [true, "Please Add Faculty Abbreviation"]
     }
         
 }, {timestamps : true});
