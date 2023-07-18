@@ -21,6 +21,7 @@ export const getAllStudents = async (req : Express.Request, res : Express.Respon
 
         const allStudentCuratedData = allStudents.map((student)=>{
             return {
+                id : student._id,
                 matriculeNumber : student.matriculeNumber,
                 studentName : student.studentName,
                 email : student.email,
@@ -78,6 +79,7 @@ export const getOneStudent = async (req : Express.Request, res : Express.Respons
         res.status(200).json({
             status : "OK",
             data : {
+                id : student._id,
                 matriculeNumber : student.matriculeNumber,
                 studentName : student.studentName,
                 email : student.email,
@@ -122,6 +124,7 @@ export const createStudent = async (req: Express.Request, res : Express.Response
                 res.status(200).json({
                     message : "Student created successfull!",
                     data : {
+                        _id : newStudent._id,
                         matriculeNumber : newStudent.matriculeNumber,
                         studentName : newStudent.studentName,
                         email : newStudent.email,

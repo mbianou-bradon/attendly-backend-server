@@ -1,6 +1,7 @@
 import { Teacher, Student } from "../../models"
 import Express from "express"
 import * as bcryptjs from "bcryptjs"
+import e from "express"
 
 
 /**
@@ -21,13 +22,29 @@ export const LoginUser = async (req: Express.Request, res: Express.Response, nex
     })
     try {
 
-        const user = await Student.findOne({ matriculeNumber: userID }) || await Teacher.findOne({ teacherMatricule: userID });
+        const user = await Student.findOne({ matriculeNumber: userID }) || await Teacher.findOne({ teacherMatricule: userID }).populate({ path: "coursesTaught", model: "Course", options: {strictPopulate: false}});
 
         if (!user) return next(res.status(404).json({ message: "User does not exist" }));
 
         const hashPassword = user.password!;
 
         const response = await bcryptjs.compare(userPassword, hashPassword);
+
+        let structuredUser = {};
+
+        if(user.role === "student"){
+            structuredUser = {
+                id: user._id,
+                matriculeNumber : user?.matriculeNumber,
+                studentName : user?.studentName,
+                email : user.email,
+                institutionalEmail: user.institutionalEmail,
+                phoneNumber : user.phoneNumber,
+                faculty : user.faculty,
+                department : user.department,
+                role : user.role
+            }
+        }
 
         return next(
             res.status(response ? 200 : 401).json({
