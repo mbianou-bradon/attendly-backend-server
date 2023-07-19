@@ -17,7 +17,7 @@ export const getAllCourses = async (req : Express.Request, res : Express.Respons
     const faculty= String(req.query.faculty) || " ";
     const dept = String(req.query.dept) || " ";
     const level = String(req.query.level) || " ";
-    const isOpen = Boolean(req.query.isOpen) || false; 
+    const isOpen = String(req.query.isOpen) || " "; 
 
     try {
         let query : Query = {};
@@ -31,7 +31,7 @@ export const getAllCourses = async (req : Express.Request, res : Express.Respons
             query.level = level
         }
         if(isOpen){
-            query.isOpen = isOpen
+            query.openForAttendance = true
         }
 
         const allCourses = await Course.find(query).sort({ courseCode : 1 })
