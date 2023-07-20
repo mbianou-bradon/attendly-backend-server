@@ -30,7 +30,7 @@ export const getAllCourses = async (req : Express.Request, res : Express.Respons
         if(level !== " "){
             query.level = level
         }
-        if(isOpen){
+        if(isOpen !== " "){
             query.openForAttendance = true
         }
 
